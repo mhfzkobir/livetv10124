@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My M3U Channels</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            padding: 20px;
+            margin: 0;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .channel-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+            padding: 20px;
+            justify-items: center;
+        }
+        .channel-card {
+            background-color: #fff;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 100%;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .channel-card:hover,
+        .channel-card:focus {
+            transform: scale(1.05);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+        }
+        .channel-card img {
+            max-width: 100%;
+            border-radius: 8px;
+        }
+        .channel-card a {
+            text-decoration: none;
+            color: #0073e6;
+            font-size: 16px;
+        }
+        .channel-card p {
+            margin: 10px 0 0;
+            color: #555;
+        }
+        /* Style for focusable elements */
+        .channel-card:focus {
+            outline: 3px solid #0073e6;
+        }
+    </style>
+</head>
+
+<head>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+
+<body>
+    <h1>Channel List</h1>
+    <div class="channel-grid" id="channelGrid"></div>
+
+    <script>
+        // Function to fetch the M3U playlist and parse it
+        fetch('https://raw.githubusercontent.com/MohammadKobirShah/KobirIPTV/refs/heads/main/KobirIPTV.m3u')
+            .then(response => response.text())
+            .then(data => {
+                const channels = parseM3U(data);
+                displayChannels(channels);
+            })
+            .catch(error => console.error('Error fetching M3U playlist:', error));
+
+        // Function to parse the M3U data
+        function parseM3U(m3uData) {
+            const lines = m3uData.split('\n');
+            const channels = [];
+            let channel = null;
+
+            lines.forEach(line => {
+                if (line.startsWith('#EXTINF:')) {
+                    if (channel) {
+                        channels.push(channel);
+                    }
+                    const channelInfo = line.split(',');
+                    channel = {
+                        name: channelInfo[1] || 'Unknown Channel',
+                        url: lines[lines.indexOf(line) + 1] || ''
+                    };
+                }
+            });
+
+            if (channel) {
+                channels.push(channel);
+            }
+
+            return channels;
+        }
+
+        // Function to display the channels in grid format
+        function displayChannels(channels) {
+            const channelGrid = document.getElementById('channelGrid');
+            channels.forEach(channel => {
+                const card = document.createElement('div');
+                card.classList.add('channel-card');
+                card.tabIndex = 0; // Make it focusable for DPAD navigation
+                card.innerHTML = `
+                    <img src="https://via.placeholder.com/200" alt="${channel.name}">
+                    <p><strong>${channel.name}</strong></p>
+                    <a href="${channel.url}" target="_blank">Watch</a>
+                `;
+                channelGrid.appendChild(card);
+            });
+        }
+    </script>
+</body>
+</html>
