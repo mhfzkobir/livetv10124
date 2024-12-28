@@ -62,7 +62,7 @@ function displayChannels(channels) {
         
         // Add event listener to play channel when card is clicked
         card.addEventListener('click', () => {
-            window.open(channel.url, '_blank');
+            playChannel(channel.url, channel.name);
         });
 
         channelGrid.appendChild(card);
@@ -95,3 +95,47 @@ function displayCategories(channels) {
         categorySelect.appendChild(option);
     });
 }
+
+// Function to play the selected channel using Shaka Player
+function playChannel(url, channelName) {
+    const playerContainer = document.getElementById('player-container');
+    const videoElement = document.getElementById('video');
+    playerContainer.style.display = 'block'; // Show player container
+
+    // Initialize Shaka Player
+    const player = new shaka.player.Player(videoElement);
+    player.load(url).then(() => {
+        console.log(`Now playing: ${channelName}`);
+        // Check and select Bangla Audio track if available
+        const tracks = player.getConfiguration().streaming.audio;
+        const banglaTrack = tracks.find(track => track.language === 'bn');
+        if (banglaTrack) {
+            player.selectAudioLanguage('bn');
+        }
+    }).catch(error => {
+        console.error('Error loading the stream:', error);
+    });
+}
+
+// Auto Dark Mode based on Dhaka time
+function enableDarkModeBasedOnTime() {
+    const now = new Date();
+    const dhakaOffset = 6 * 60; // Dhaka is UTC +6
+    const dhakaTime = new Date(now.getTime() + (dhakaOffset - now.getTimezoneOffset()) * 60000);
+    const hour = dhakaTime.getHours();
+
+    // Enable dark mode from 6 AM to 6 PM
+    if (hour >= 6 && hour < 18) {
+        document.body.classList.add('light-mode');
+        document.body.classList.remove('dark-mode');
+    } else {
+        document.body.classList.add('dark-mode');
+        document.body.classList.remove('light-mode');
+    }
+}
+
+// Automatically check for Dark Mode when the page loads
+enableDarkModeBasedOnTime();
+
+// Update dark mode periodically (if needed)
+setInterval(enableDarkModeBasedOnTime, 60 * 60 * 1000); // Check every hour
