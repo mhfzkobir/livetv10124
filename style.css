@@ -21,7 +21,30 @@ h1 {
     margin-bottom: 40px;
 }
 
-/* Grid Layout for Channels */
+/* Filters Section (Search bar and category dropdown) */
+.filters {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+#searchInput {
+    padding: 10px;
+    font-size: 1rem;
+    width: 70%;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+#categorySelect {
+    padding: 10px;
+    font-size: 1rem;
+    width: 25%;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+/* Channel Grid */
 .channel-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
@@ -45,7 +68,6 @@ h1 {
     position: relative;
 }
 
-/* Hover and Focus Effects */
 .channel-card:hover,
 .channel-card:focus {
     transform: scale(1.05);
@@ -57,7 +79,7 @@ h1 {
     outline: 3px solid #0073e6;
 }
 
-/* Channel Image (Placeholder or Real) */
+/* Channel Logo Image */
 .channel-card img {
     max-width: 100%;
     border-radius: 10px;
@@ -76,49 +98,15 @@ h1 {
     margin-top: 15px;
 }
 
-/* Channel Link Button */
-.channel-card a {
-    font-size: 1rem;
-    color: #0073e6;
-    text-decoration: none;
-    margin-top: 10px;
-    display: inline-block;
-    background-color: #0073e6;
-    padding: 8px 16px;
-    border-radius: 5px;
-    transition: background-color 0.3s ease;
-}
-
-.channel-card a:hover {
-    background-color: #005bb5;
-}
-
-/* Focus Styles for Links */
-.channel-card a:focus {
-    outline: 3px solid #ff9e2c;
-}
-
-/* Responsive Media Queries */
+/* Responsive Design */
 @media (max-width: 768px) {
     .channel-grid {
         grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    }
-
-    h1 {
-        font-size: 2rem;
     }
 }
 
 @media (max-width: 480px) {
     .channel-grid {
         grid-template-columns: 1fr;
-    }
-
-    h1 {
-        font-size: 1.8rem;
-    }
-
-    .channel-card {
-        padding: 15px;
     }
 }
