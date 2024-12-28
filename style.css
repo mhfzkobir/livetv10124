@@ -11,17 +11,30 @@ body {
     color: #333;
     line-height: 1.6;
     padding: 20px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+/* Light Mode */
+body.light-mode {
+    background-color: #fafafa;
+    color: #333;
+}
+
+/* Dark Mode */
+body.dark-mode {
+    background-color: #121212;
+    color: #f1f1f1;
 }
 
 /* Page Header */
 h1 {
     text-align: center;
     font-size: 2.5rem;
-    color: #222;
+    color: inherit;
     margin-bottom: 40px;
 }
 
-/* Filters Section (Search bar and category dropdown) */
+/* Filters Section */
 .filters {
     display: flex;
     justify-content: space-between;
@@ -51,7 +64,6 @@ h1 {
     gap: 30px;
     padding: 0;
     justify-items: center;
-    transition: all 0.3s ease-in-out;
 }
 
 /* Individual Channel Card */
@@ -83,19 +95,21 @@ h1 {
 .channel-card img {
     max-width: 100%;
     border-radius: 10px;
-    transition: transform 0.3s ease;
-}
-
-.channel-card:hover img {
-    transform: scale(1.1);
 }
 
 /* Channel Title */
 .channel-card p {
     font-size: 1.2rem;
-    color: #333;
+    color: inherit;
     font-weight: 600;
     margin-top: 15px;
+}
+
+/* Player Container */
+#player-container {
+    display: none;
+    margin-top: 30px;
+    text-align: center;
 }
 
 /* Responsive Design */
