@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My M3U Channels</title>
+    <link rel="stylesheet" href="style.css">
+    
+    <!-- Shaka Player Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/shaka-player/4.12.5/shaka-player.compiled.js"></script>
+</head>
+<body>
+    <h1>Channel List</h1>
+    
+    <!-- Filters Section -->
+    <div class="filters">
+        <input type="text" id="searchInput" placeholder="Search for a channel..." oninput="filterChannels()">
+        <select id="categorySelect" onchange="filterChannels()">
+            <option value="">Select Category</option>
+        </select>
+    </div>
+    
+    <!-- Channel Grid -->
+    <div class="channel-grid" id="channelGrid"></div>
+    
+    <!-- Video Player Section -->
+    <div id="player-container" style="display:none;">
+        <video id="shaka-player" width="100%" controls></video>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
