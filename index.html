@@ -3,30 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My M3U Channels</title>
+    <title>IPTV Player</title>
     <link rel="stylesheet" href="style.css">
-    
-    <!-- Shaka Player Library -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/shaka-player/4.12.5/shaka-player.compiled.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/hls.js/1.5.18/hls.js"></script>
 </head>
 <body>
     <h1>Channel List</h1>
-    
+
     <!-- Filters Section -->
     <div class="filters">
         <input type="text" id="searchInput" placeholder="Search for a channel..." oninput="filterChannels()">
         <select id="categorySelect" onchange="filterChannels()">
-            <option value="">Select Category</option>
+            <option value="">All Categories</option>
         </select>
     </div>
-    
+
+    <!-- Favorites Section -->
+    <h2>Your Favorites</h2>
+    <div id="favoritesGrid" class="channel-grid"></div>
+
     <!-- Channel Grid -->
-    <div class="channel-grid" id="channelGrid"></div>
-    
+    <div id="channelGrid" class="channel-grid"></div>
+
     <!-- Video Player Section -->
-    <div id="player-container" style="display:none;">
-        <video id="shaka-player" width="100%" controls></video>
-    </div>
+    <video id="video-player" width="100%" controls></video>
+
+    <!-- Loading and Error Messages -->
+    <div id="loading-indicator" class="hidden">Loading...</div>
+    <div id="error-message" class="hidden"></div>
 
     <script src="app.js"></script>
 </body>
