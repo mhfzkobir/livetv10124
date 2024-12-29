@@ -3,7 +3,7 @@ let filteredChannels = [];
 let favorites = [];
 
 // Fetch and parse M3U playlist
-fetch('https://raw.githubusercontent.com/MohammadKobirShah/KobirIPTV/refs/heads/main/KobirIPTV.m3u')
+fetch('https://denverisalive.vercel.app/Playlist/OpplexTV6.m3u')
     .then(response => {
         showLoadingIndicator(); // Show loading indicator while fetching
         return response.text();
