@@ -7,6 +7,11 @@ body {
   color: #eee;
 }
 
+body.light-mode {
+  background: linear-gradient(135deg, #f0f4f8, #e8eff6);
+  color: #333;
+}
+
 /* Header */
 header {
   display: flex;
@@ -18,6 +23,11 @@ header {
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.4);
 }
 
+body.light-mode header {
+  background: linear-gradient(135deg, #ffffff, #f0f4f8);
+  color: #333;
+}
+
 header .logo {
   font-size: 1.8rem;
   font-weight: bold;
@@ -27,6 +37,7 @@ header .logo {
 header .search-container {
   display: flex;
   gap: 10px;
+  align-items: center;
 }
 
 header input,
@@ -39,45 +50,40 @@ header select {
   color: #eee;
 }
 
+body.light-mode header input,
+body.light-mode header select {
+  background: #fff;
+  color: #333;
+}
+
 header input:focus,
 header select:focus {
   box-shadow: 0 0 6px #f4c542;
 }
 
-/* VPN Options */
-.vpn-options {
-  text-align: center;
-  margin: 20px 0;
+body.light-mode header input:focus,
+body.light-mode header select:focus {
+  box-shadow: 0 0 6px #333;
 }
 
-.vpn-options h2 {
-  font-size: 1.8rem;
-  margin-bottom: 15px;
-  color: #f4c542;
-}
-
-.vpn-grid {
-  display: flex;
-  justify-content: center;
-  gap: 10px;
-  flex-wrap: wrap;
-}
-
-.vpn-btn {
-  padding: 10px 20px;
-  font-size: 16px;
-  font-weight: bold;
-  border: none;
+.theme-btn {
+  padding: 8px 15px;
   border-radius: 5px;
+  border: none;
   background: #f4c542;
   color: #1f1f21;
   cursor: pointer;
+  font-weight: bold;
   transition: all 0.3s ease;
 }
 
-.vpn-btn:hover {
-  background: #fff;
-  color: #000;
+body.light-mode .theme-btn {
+  background: #333;
+  color: #fff;
+}
+
+.theme-btn:hover {
+  opacity: 0.8;
 }
 
 /* Channel Grid */
@@ -98,9 +104,18 @@ header select:focus {
   cursor: pointer;
 }
 
+body.light-mode .card {
+  background: #fff;
+  color: #333;
+}
+
 .card:hover {
   transform: scale(1.05);
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.6);
+}
+
+body.light-mode .card:hover {
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
 }
 
 .card img {
@@ -117,10 +132,19 @@ header select:focus {
   word-wrap: break-word;
 }
 
+body.light-mode .card h3 {
+  color: #333;
+}
+
 /* Footer */
 footer {
   text-align: center;
   padding: 20px;
   background: #000;
   color: #f4c542;
+}
+
+body.light-mode footer {
+  background: #f0f4f8;
+  color: #333;
 }
