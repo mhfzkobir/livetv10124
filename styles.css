@@ -3,8 +3,8 @@ body {
   font-family: 'Arial', sans-serif;
   margin: 0;
   padding: 0;
-  background: linear-gradient(135deg, #f0f4f8, #e8eff6);
-  color: #333;
+  background: linear-gradient(135deg, #4e4e50, #1f1f21);
+  color: #eee;
 }
 
 /* Header */
@@ -12,15 +12,16 @@ header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: #007bff;
+  background: linear-gradient(135deg, #3a3a3c, #000);
   color: white;
   padding: 10px 20px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.4);
 }
 
 header .logo {
-  font-size: 1.5rem;
+  font-size: 1.8rem;
   font-weight: bold;
+  color: #f4c542;
 }
 
 header .search-container {
@@ -32,14 +33,51 @@ header input,
 header select {
   padding: 8px 10px;
   border-radius: 5px;
-  border: none;
+  border: 1px solid #444;
   font-size: 14px;
-  outline: none;
+  background: #333;
+  color: #eee;
 }
 
 header input:focus,
 header select:focus {
-  box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 0 6px #f4c542;
+}
+
+/* VPN Options */
+.vpn-options {
+  text-align: center;
+  margin: 20px 0;
+}
+
+.vpn-options h2 {
+  font-size: 1.8rem;
+  margin-bottom: 15px;
+  color: #f4c542;
+}
+
+.vpn-grid {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.vpn-btn {
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  border: none;
+  border-radius: 5px;
+  background: #f4c542;
+  color: #1f1f21;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.vpn-btn:hover {
+  background: #fff;
+  color: #000;
 }
 
 /* Channel Grid */
@@ -51,9 +89,9 @@ header select:focus {
 }
 
 .card {
-  background: white;
+  background: #3a3a3c;
   border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
   text-align: center;
   padding: 20px;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -62,7 +100,7 @@ header select:focus {
 
 .card:hover {
   transform: scale(1.05);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.6);
 }
 
 .card img {
@@ -75,7 +113,7 @@ header select:focus {
 .card h3 {
   margin: 0;
   font-size: 18px;
-  color: #333;
+  color: #f4c542;
   word-wrap: break-word;
 }
 
@@ -83,21 +121,6 @@ header select:focus {
 footer {
   text-align: center;
   padding: 20px;
-  background: #007bff;
-  color: white;
-  margin-top: 20px;
-}
-
-/* Popup Styling (if needed inside the popup window) */
-body.popup {
-  background: black;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-#player {
-  width: 100%;
-  height: 100%;
-  background: black;
+  background: #000;
+  color: #f4c542;
 }
