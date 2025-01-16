@@ -3,12 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Live TV - Enhanced</title>
+  <title>Diamond Live TV</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <header>
-    <div class="logo">📺 Live TV</div>
+    <div class="logo">💎 Diamond Live TV</div>
     <div class="search-container">
       <input type="text" id="search" placeholder="Search channels..." />
       <select id="category">
@@ -18,13 +18,24 @@
   </header>
 
   <main>
+    <div class="vpn-options">
+      <h2>VPN Options</h2>
+      <div class="vpn-grid">
+        <button class="vpn-btn" onclick="connectVPN('SSH')">SSH</button>
+        <button class="vpn-btn" onclick="connectVPN('SSL')">SSL</button>
+        <button class="vpn-btn" onclick="connectVPN('OpenVPN')">OpenVPN</button>
+        <button class="vpn-btn" onclick="connectVPN('PPTP')">PPTP</button>
+        <button class="vpn-btn" onclick="connectVPN('L2TP')">L2TP</button>
+      </div>
+    </div>
+
     <div id="channel-container" class="grid-view">
       <!-- Channels will load here dynamically -->
     </div>
   </main>
 
   <footer>
-    <p>© 2025 Live TV Platform | Built with ❤️</p>
+    <p>© 2025 Diamond Live TV | Built with ❤️</p>
   </footer>
 
   <script src="app.js"></script>
