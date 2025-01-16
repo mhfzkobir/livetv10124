@@ -1,15 +1,18 @@
-const m3uUrl = 'https://raw.githubusercontent.com/LIVETV10124/KobirIPTV/refs/heads/main/KobirIPTV.m3u'; // Replace with your M3U file URL
+const m3uUrl = 'https://play.denver1769.in/Play/OTT_ball6.m3u'; // Replace with your M3U file URL
 
 let channels = [];
 const channelContainer = document.getElementById('channel-container');
 const searchInput = document.getElementById('search');
 const categorySelect = document.getElementById('category');
+const themeToggle = document.getElementById('theme-toggle');
 
-// VPN Connection Handler
-function connectVPN(type) {
-  alert(`Connecting to ${type} VPN...`);
-  // Add connection logic for each VPN type as needed
-}
+// Light/Dark Mode Toggle
+themeToggle.addEventListener('click', () => {
+  document.body.classList.toggle('light-mode');
+  themeToggle.textContent = document.body.classList.contains('light-mode')
+    ? 'Dark Mode'
+    : 'Light Mode';
+});
 
 // Fetch and parse M3U file
 async function fetchChannels() {
@@ -110,6 +113,7 @@ function openPlayerPopup(url) {
           height: '100%',
           controls: true,
           autostart: true,
+          mute: false, // Ensure sound is unmuted
           skin: {
             name: 'seven',
           },
