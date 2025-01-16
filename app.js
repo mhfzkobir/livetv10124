@@ -1,4 +1,4 @@
-const m3uUrl = 'https://github.com/MohammadKobirShah/mix/raw/refs/heads/main/jsyz.m3u8'; // Replace with your M3U file URL
+const m3uUrl = 'https://playlist.nayeem-parvez.top/api-fuck/amrbd.m3u'; // Replace with your M3U file URL
 
 let channels = [];
 const channelContainer = document.getElementById('channel-container');
