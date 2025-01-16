@@ -1,37 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IPTV Player</title>
-    <link rel="stylesheet" href="style.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/hls.js/1.5.18/hls.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Live TV - Enhanced</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <h1>Channel List</h1>
-
-    <!-- Filters Section -->
-    <div class="filters">
-        <input type="text" id="searchInput" placeholder="Search for a channel..." oninput="filterChannels()">
-        <select id="categorySelect" onchange="filterChannels()">
-            <option value="">All Categories</option>
-        </select>
+  <header>
+    <div class="logo">📺 Live TV</div>
+    <div class="search-container">
+      <input type="text" id="search" placeholder="Search channels..." />
+      <select id="category">
+        <option value="all">All Categories</option>
+      </select>
     </div>
+  </header>
 
-    <!-- Favorites Section -->
-    <h2>Your Favorites</h2>
-    <div id="favoritesGrid" class="channel-grid"></div>
+  <main>
+    <div id="channel-container" class="grid-view">
+      <!-- Channels will load here dynamically -->
+    </div>
+  </main>
 
-    <!-- Channel Grid -->
-    <div id="channelGrid" class="channel-grid"></div>
+  <footer>
+    <p>© 2025 Live TV Platform | Built with ❤️</p>
+  </footer>
 
-    <!-- Video Player Section -->
-    <video id="video-player" width="100%" controls></video>
-
-    <!-- Loading and Error Messages -->
-    <div id="loading-indicator" class="hidden">Loading...</div>
-    <div id="error-message" class="hidden"></div>
-
-    <script src="app.js"></script>
+  <script src="app.js"></script>
 </body>
 </html>
