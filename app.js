@@ -1,178 +1,126 @@
+const m3uUrl = 'https://raw.githubusercontent.com/MohammadKobirShah/KobirIPTV/refs/heads/main/KobirIPTV.m3u'; // Replace with your M3U file URL
+
 let channels = [];
-let filteredChannels = [];
-let favorites = [];
+const channelContainer = document.getElementById('channel-container');
+const searchInput = document.getElementById('search');
+const categorySelect = document.getElementById('category');
 
-// Fetch and parse M3U playlist
-fetch('https://denverisalive.vercel.app/Playlist/OpplexTV6.m3u')
-    .then(response => {
-        showLoadingIndicator(); // Show loading indicator while fetching
-        return response.text();
-    })
-    .then(data => {
-        channels = parseM3U(data);
-        filteredChannels = channels;
-        displayCategories(channels);
-        displayChannels(filteredChannels);
-        hideLoadingIndicator(); // Remove the loading indicator
-    })
-    .catch(error => {
-        console.error('Error fetching M3U playlist:', error);
-        showError('Failed to load channels. Please try again later.');
-    });
-
-// Parse M3U playlist
-function parseM3U(data) {
-    const lines = data.split('\n');
-    const channels = [];
-    let channel = null;
-
-    lines.forEach(line => {
-        if (line.startsWith('#EXTINF:')) {
-            if (channel) channels.push(channel);
-
-            const name = line.split(',')[1] || 'Unknown Channel';
-            const logo = line.match(/tvg-logo="([^"]+)"/)?.[1] || 'https://via.placeholder.com/200';
-            const category = line.match(/group-title="([^"]+)"/)?.[1] || 'Uncategorized';
-
-            channel = { name, url: '', logo, category };
-        } else if (channel && line.startsWith('http')) {
-            channel.url = line;
-        }
-    });
-
-    if (channel) channels.push(channel);
-    return channels;
+// Fetch and parse M3U file
+async function fetchChannels() {
+  const response = await fetch(m3uUrl);
+  const text = await response.text();
+  parseM3U(text);
 }
 
-// Display channels
-function displayChannels(channels) {
-    const grid = document.getElementById('channelGrid');
-    grid.innerHTML = '';
+// Parse M3U file content
+function parseM3U(m3uContent) {
+  const lines = m3uContent.split('\n');
+  let currentChannel = {};
 
-    if (channels.length === 0) {
-        grid.innerHTML = '<p>No channels found. Please adjust your filters.</p>';
-        return;
+  lines.forEach((line) => {
+    if (line.startsWith('#EXTINF')) {
+      const matchGroup = line.match(/group-title="([^"]+)"/);
+      const matchLogo = line.match(/tvg-logo="([^"]+)"/);
+      const channelName = line.split(',').pop();
+
+      currentChannel = {
+        name: channelName.trim(),
+        url: null,
+        category: matchGroup ? matchGroup[1] : 'Uncategorized',
+        logo: matchLogo ? matchLogo[1] : null,
+      };
+    } else if (line.trim() && !line.startsWith('#')) {
+      currentChannel.url = line.trim();
+      channels.push(currentChannel);
     }
+  });
 
-    channels.forEach(channel => {
-        const card = document.createElement('div');
-        card.className = 'channel-card';
-        card.innerHTML = `<img src="${channel.logo}" alt="${channel.name}"><p>${channel.name}</p>`;
-        card.onclick = () => playChannel(channel);
-        grid.appendChild(card);
-    });
+  displayChannels(channels);
+  populateCategories();
 }
 
-// Display categories
-function displayCategories(channels) {
-    const categories = [...new Set(channels.map(c => c.category))];
-    const select = document.getElementById('categorySelect');
-
-    categories.forEach(category => {
-        const option = document.createElement('option');
-        option.value = category;
-        option.textContent = category;
-        select.appendChild(option);
-    });
+// Display channels in grid view
+function displayChannels(channelList) {
+  channelContainer.innerHTML = '';
+  channelList.forEach((channel) => {
+    const card = document.createElement('div');
+    card.classList.add('card');
+    card.innerHTML = `
+      ${channel.logo ? `<img src="${channel.logo}" alt="${channel.name} Logo">` : ''}
+      <h3>${channel.name}</h3>
+    `;
+    card.addEventListener('click', () => openPlayerPopup(channel.url));
+    channelContainer.appendChild(card);
+  });
 }
 
-// Filter channels
-function filterChannels() {
-    const search = document.getElementById('searchInput').value.toLowerCase();
-    const category = document.getElementById('categorySelect').value;
-
-    filteredChannels = channels.filter(c => {
-        const matchesSearch = c.name.toLowerCase().includes(search);
-        const matchesCategory = !category || c.category === category;
-        return matchesSearch && matchesCategory;
-    });
-
-    displayChannels(filteredChannels);
+// Populate categories dynamically
+function populateCategories() {
+  const categories = [...new Set(channels.map((channel) => channel.category))];
+  categorySelect.innerHTML = `<option value="all">All Categories</option>`;
+  categories.forEach((category) => {
+    const option = document.createElement('option');
+    option.value = category;
+    option.textContent = category;
+    categorySelect.appendChild(option);
+  });
 }
 
-// Play channel in fullscreen and select Bangla audio track
-function playChannel(channel) {
-    const video = document.getElementById('video-player');
+// Open JW Player in a popup window
+function openPlayerPopup(url) {
+  const popup = window.open(
+    '',
+    '_blank',
+    'width=1920,height=1080,toolbar=no,location=no,status=no,menubar=no,scrollbars=no,resizable=yes'
+  );
 
-    if (Hls.isSupported()) {
-        const hls = new Hls();
-        hls.loadSource(channel.url);
-        hls.attachMedia(video);
-
-        hls.on(Hls.Events.MANIFEST_PARSED, () => {
-            const audioTracks = hls.audioTracks;
-            const banglaTrackIndex = audioTracks.findIndex(track => track.name.toLowerCase().includes('bangla'));
-
-            if (banglaTrackIndex !== -1) {
-                hls.audioTrack = banglaTrackIndex;
-                console.log(`Selected Bangla audio track: ${audioTracks[banglaTrackIndex].name}`);
-            } else {
-                console.log('No Bangla audio track available.');
-            }
-
-            video.play();
-            enableFullscreen(video);
+  popup.document.write(`
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Live TV Player</title>
+      <script src="https://cdn.jwplayer.com/libraries/IDzF9Zmk.js"></script>
+    </head>
+    <body style="margin: 0; padding: 0; background: black;">
+      <div id="player" style="width: 100%; height: 100%;"></div>
+      <script>
+        const player = jwplayer('player');
+        player.setup({
+          file: '${url}',
+          width: '100%',
+          height: '100%',
+          controls: true,
+          autostart: true,
+          skin: {
+            name: 'seven',
+          },
         });
-
-        hls.on(Hls.Events.ERROR, (event, data) => {
-            console.error('HLS error:', data);
-            showError('Error playing the channel. Please try again.');
-        });
-    } else {
-        video.src = channel.url;
-        video.play();
-        enableFullscreen(video);
-    }
+      </script>
+    </body>
+    </html>
+  `);
 }
 
-// Enable fullscreen mode
-function enableFullscreen(video) {
-    if (video.requestFullscreen) {
-        video.requestFullscreen();
-    } else if (video.webkitRequestFullscreen) {
-        video.webkitRequestFullscreen();
-    } else if (video.mozRequestFullScreen) {
-        video.mozRequestFullScreen();
-    } else if (video.msRequestFullscreen) {
-        video.msRequestFullscreen();
-    }
-}
+// Search functionality
+searchInput.addEventListener('input', () => {
+  const searchTerm = searchInput.value.toLowerCase();
+  const filteredChannels = channels.filter((channel) =>
+    channel.name.toLowerCase().includes(searchTerm)
+  );
+  displayChannels(filteredChannels);
+});
 
-// Manage favorites
-function toggleFavorite(channel) {
-    if (favorites.includes(channel)) {
-        favorites = favorites.filter(fav => fav !== channel);
-    } else {
-        favorites.push(channel);
-    }
-    displayFavorites();
-}
+// Category filtering
+categorySelect.addEventListener('change', () => {
+  const selectedCategory = categorySelect.value;
+  const filteredChannels =
+    selectedCategory === 'all'
+      ? channels
+      : channels.filter((channel) => channel.category === selectedCategory);
+  displayChannels(filteredChannels);
+});
 
-function displayFavorites() {
-    const grid = document.getElementById('favoritesGrid');
-    grid.innerHTML = '';
-
-    favorites.forEach(channel => {
-        const card = document.createElement('div');
-        card.className = 'channel-card';
-        card.innerHTML = `<img src="${channel.logo}" alt="${channel.name}"><p>${channel.name}</p>`;
-        grid.appendChild(card);
-    });
-}
-
-// Loading indicator
-function showLoadingIndicator() {
-    document.getElementById('loading-indicator').classList.remove('hidden');
-}
-
-function hideLoadingIndicator() {
-    document.getElementById('loading-indicator').classList.add('hidden');
-}
-
-// Error message
-function showError(message) {
-    const errorDiv = document.getElementById('error-message');
-    errorDiv.textContent = message;
-    errorDiv.classList.remove('hidden');
-    setTimeout(() => errorDiv.classList.add('hidden'), 5000);
-}
+// Initialize
+fetchChannels();
