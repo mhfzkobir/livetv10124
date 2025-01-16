@@ -5,14 +5,6 @@ const channelContainer = document.getElementById('channel-container');
 const searchInput = document.getElementById('search');
 const categorySelect = document.getElementById('category');
 
-// Fetch and parse M3U file
-async function fetchChannels() {
-  const response = await fetch(m3uUrl);
-  const text = await response.text();
-  parseM3U(text);
-}
-
-// Parse M3U file content
 function parseM3U(m3uContent) {
   const lines = m3uContent.split('\n');
   let currentChannel = {};
@@ -30,13 +22,25 @@ function parseM3U(m3uContent) {
         logo: matchLogo ? matchLogo[1] : null,
       };
     } else if (line.trim() && !line.startsWith('#')) {
-      currentChannel.url = line.trim();
-      channels.push(currentChannel);
+      const url = line.trim();
+      // Check if the URL is valid for JW Player
+      if (isPlayableUrl(url)) {
+        currentChannel.url = url;
+        channels.push(currentChannel);
+      }
     }
   });
 
   displayChannels(channels);
   populateCategories();
+}
+
+// Helper function to detect playable URLs
+function isPlayableUrl(url) {
+  const supportedExtensions = /\.(mpd|m3u|m3u8)$/i; // Match .mpd, .m3u, .m3u8
+  const dynamicScripts = /(php|id=)/i; // Match URLs containing 'php' or 'id='
+
+  return supportedExtensions.test(url) || dynamicScripts.test(url);
 }
 
 // Display channels in grid view
