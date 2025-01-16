@@ -1,10 +1,24 @@
-const m3uUrl = 'https://raw.githubusercontent.com/MohammadKobirShah/KobirIPTV/refs/heads/main/KobirIPTV.m3u'; // Replace with your M3U file URL
+const m3uUrl = 'https://raw.githubusercontent.com/LIVETV10124/KobirIPTV/refs/heads/main/KobirIPTV.m3u'; // Replace with your M3U file URL
 
 let channels = [];
 const channelContainer = document.getElementById('channel-container');
 const searchInput = document.getElementById('search');
 const categorySelect = document.getElementById('category');
 
+// VPN Connection Handler
+function connectVPN(type) {
+  alert(`Connecting to ${type} VPN...`);
+  // Add connection logic for each VPN type as needed
+}
+
+// Fetch and parse M3U file
+async function fetchChannels() {
+  const response = await fetch(m3uUrl);
+  const text = await response.text();
+  parseM3U(text);
+}
+
+// Parse M3U file content
 function parseM3U(m3uContent) {
   const lines = m3uContent.split('\n');
   let currentChannel = {};
@@ -23,7 +37,6 @@ function parseM3U(m3uContent) {
       };
     } else if (line.trim() && !line.startsWith('#')) {
       const url = line.trim();
-      // Check if the URL is valid for JW Player
       if (isPlayableUrl(url)) {
         currentChannel.url = url;
         channels.push(currentChannel);
@@ -84,7 +97,7 @@ function openPlayerPopup(url) {
     <head>
       <meta charset="UTF-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <title>Live TV Player</title>
+      <title>Diamond Live TV Player</title>
       <script src="https://cdn.jwplayer.com/libraries/IDzF9Zmk.js"></script>
     </head>
     <body style="margin: 0; padding: 0; background: black;">
