@@ -4,15 +4,6 @@ let channels = [];
 const channelContainer = document.getElementById('channel-container');
 const searchInput = document.getElementById('search');
 const categorySelect = document.getElementById('category');
-const themeToggle = document.getElementById('theme-toggle');
-
-// Light/Dark Mode Toggle
-themeToggle.addEventListener('click', () => {
-  document.body.classList.toggle('light-mode');
-  themeToggle.textContent = document.body.classList.contains('light-mode')
-    ? 'Dark Mode'
-    : 'Light Mode';
-});
 
 // Fetch and parse M3U file
 async function fetchChannels() {
@@ -53,10 +44,9 @@ function parseM3U(m3uContent) {
 
 // Helper function to detect playable URLs
 function isPlayableUrl(url) {
-  const supportedExtensions = /\.(mpd|m3u|m3u8)$/i; // Match .mpd, .m3u, .m3u8
-  const dynamicScripts = /(php|id=)/i; // Match URLs containing 'php' or 'id='
-
-  return supportedExtensions.test(url) || dynamicScripts.test(url);
+  // Allow dynamic URLs like `.php?id=`
+  const validFormats = /(mpd|m3u|m3u8|php\?id=)/i;
+  return validFormats.test(url);
 }
 
 // Display channels in grid view
@@ -108,7 +98,7 @@ function openPlayerPopup(url) {
       <script>
         const player = jwplayer('player');
         player.setup({
-          file: '${url}',
+          file: '${url}', // Use the dynamic URL passed to the function
           width: '100%',
           height: '100%',
           controls: true,
