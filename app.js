@@ -1,4 +1,4 @@
-const m3uUrl = 'https://playlist.nayeem-parvez.top/api-fuck/amrbd.m3u'; // Replace with your M3U file URL
+const m3uUrl = 'https://raw.githubusercontent.com/mhfzkobir/allinone-special-playlist.m3u/refs/heads/main/TataTv.m3u'; // Replace with your M3U file URL
 
 let channels = [];
 const channelContainer = document.getElementById('channel-container');
@@ -10,8 +10,8 @@ const themeToggle = document.getElementById('theme-toggle');
 themeToggle.addEventListener('click', () => {
   document.body.classList.toggle('light-mode');
   themeToggle.textContent = document.body.classList.contains('light-mode')
-    ? '🌙 Dark Mode'
-    : '🔆 Light Mode';
+    ? 'Dark Mode'
+    : 'Light Mode';
 });
 
 // Fetch and parse M3U file
