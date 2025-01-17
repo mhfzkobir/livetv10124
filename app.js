@@ -1,4 +1,4 @@
-const m3uUrl = 'https://raw.githubusercontent.com/mhfzkobir/allinone-special-playlist.m3u/refs/heads/main/TataTv.m3u'; // Replace with your M3U file URL
+const m3uUrl = 'https://freelivtva.vercel.app/playlist%20(8).m3u'; // Replace with your M3U file URL
 
 let channels = [];
 const channelContainer = document.getElementById('channel-container');
